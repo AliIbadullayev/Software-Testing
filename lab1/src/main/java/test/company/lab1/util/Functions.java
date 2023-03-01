@@ -1,21 +1,29 @@
 package test.company.lab1.util;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext;
+
 public class Functions {
     public static double funSecInPowerSeries(double x){
-        double res = 0D;
+        BigDecimal res = BigDecimal.ZERO;
         if (Math.abs(x) == Math.PI/2) return Double.NaN;
-        for (int i = 0; i < 16; i++){
-            res += Math.pow(-1, i)/factorialUsingForLoop(2*i)*Math.pow(x, 2*i);
+        for (int i = 0; i < 20; i++){
+            res = res.add(BigDecimal.valueOf(Math.pow(-1, i)*Math.pow(x, 2*i)).divide(new BigDecimal(factorialUsingForLoop(2*i)), MathContext.DECIMAL128));
         }
-        return (double) Math.round(1/res*1000)/1000;
+        return (double) Math.round(1/res.doubleValue()*1000)/1000;
 
     }
-    public static long factorialUsingForLoop(int n) {
-        long fact = 1;
-        for (int i = 2; i <= n; i++) {
-            fact = fact * i;
+    public static BigInteger factorialUsingForLoop(int n) {
+        BigInteger factorial = BigInteger.ONE;
+
+
+        for (int i = 1; i <= n; i++) {
+            factorial = factorial.multiply(BigInteger.valueOf(i));
         }
-        return fact;
+
+
+        return factorial;
     }
 
     public static double funSec(double x){
