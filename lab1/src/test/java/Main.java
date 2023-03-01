@@ -12,13 +12,30 @@ public class Main {
     }
 
     @ParameterizedTest
-    @ValueSource(doubles = {Math.PI/4, Math.PI/2})
-    @DisplayName("Test for checking sec(x) function!")
-    void checkSecFunc(double x){
-//        System.out.println();
+    @ValueSource(doubles = {Math.PI/4, Math.PI/6, Math.PI/3})
+    @DisplayName("Тест для проверки равности результата sec(x) и степенного ряда (-Pi/2;Pi/2)")
+    void checkSecFuncInInterval(double x){
+        System.out.println("х = " + x);
+        System.out.print("sec(x) = " + Functions.funSec(x)+"; " + "степенной ряд = "+Functions.funSecInPowerSeries(x)+"\n\n");
         Assertions.assertTrue(Math.abs(Functions.funSec(x) - Functions.funSecInPowerSeries(x)) < 0.001d, "test not passed!");
-
     }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {Math.PI/2, Math.PI, -Math.PI})
+    @DisplayName("Тест для проверки равности результата sec(x) и степенного ряда  в граничных точках -Pi/2 и Pi/2!")
+    void checkSecFuncNotInInterval(double x){
+        System.out.println("х = " + x);
+        System.out.print("sec(x) = " + Functions.funSec(x)+"; " + "степенной ряд = "+Functions.funSecInPowerSeries(x)+"\n\n");
+        Assertions.assertEquals(Functions.funSec(x), Functions.funSecInPowerSeries(x), "test not passed!");
+    }
+
+
+//    @ParameterizedTest
+//    @ValueSource(doubles = {Math.PI/2})
+//    @DisplayName("Test for checking sec(x) function!")
+//    void checkCosFunc(double x){
+//        Assertions.assertEquals(Math.cos(x), 0);
+//    }
 
 
 }
