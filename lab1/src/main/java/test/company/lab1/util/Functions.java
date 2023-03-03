@@ -8,7 +8,7 @@ public class Functions {
     public static double funSecInPowerSeries(double x){
         BigDecimal res = BigDecimal.ZERO;
         if (Math.abs(x) == Math.PI/2) return Double.NaN;
-        for (int i = 0; i < 20; i++){
+        for (int i = 0; i < 60; i++){
             res = res.add(BigDecimal.valueOf(Math.pow(-1, i)*Math.pow(x, 2*i)).divide(new BigDecimal(factorialUsingForLoop(2*i)), MathContext.DECIMAL128));
         }
         return (double) Math.round(1/res.doubleValue()*1000)/1000;
