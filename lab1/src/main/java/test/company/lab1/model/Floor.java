@@ -1,7 +1,7 @@
 package test.company.lab1.model;
 
 public class Floor extends AbstractInterierObject implements InterierObject{
-    Floor (int x, int y, int height){
+    public Floor(int x, int y, int height){
         super(x, y, height, true);
     }
     public String isTouch(BodyPart bodyPart) {

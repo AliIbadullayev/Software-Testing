@@ -11,7 +11,7 @@ public class Person {
     private int y;
     private int height;
 
-    Person (String name ){
+    public Person(String name){
         this.name = name;
         bodyParts = new ArrayList<BodyPart>();
         emotions = new ArrayList<Emotion>();
