@@ -2,10 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import test.company.lab1.model.BodyPart;
-import test.company.lab1.model.Emotion;
-import test.company.lab1.model.Floor;
-import test.company.lab1.model.Person;
+import test.company.lab1.model.*;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -38,6 +35,15 @@ public class DomainModelTest {
         Optional<BodyPart> leftLeg = person.getBodyParts().stream().filter((a)->a.getName().equals("Левая Нога")).findFirst();
         Assertions.assertTrue(leftLeg.isPresent());
         Assertions.assertEquals(floor.isTouch(leftLeg.get()), "Левая Нога cannot find the floor");
+    }
+
+    @Test
+    @DisplayName("Тест для проверки эмоций человека")
+    void fordWithEmotions() throws Exception {
+        Person person = new Person("Форд");
+        person.setEmotions(Event.createEmotions("Нечто"));
+        Assertions.assertEquals(person.emotionAnalyze(), "Emotions mixed up in porridge");
+        Assertions.assertThrows(Exception.class, () -> Event.createEmotions("Уля-ля!"));
     }
 
 

@@ -37,7 +37,7 @@ public class Person {
         initBodyPart("Левая Рука", x-10, y, (height-20)/2);
         initBodyPart("Правая Нога", x+10, y, 0);
         initBodyPart("Левая Нога", x-10, y, 0);
-        emotionAnalyze(emotions);
+        emotionAnalyze();
     }
 
     Person (String name, int x, int y, int height, String event) throws Exception {
@@ -53,7 +53,7 @@ public class Person {
         initBodyPart("Правая Нога", x+10, y, 0);
         initBodyPart("Левая Нога", x-10, y, 0);
         Event.createEmotions(event);
-        emotionAnalyze(emotions);
+        emotionAnalyze();
     }
 
     public String moveBodyPart(String name, int x, int y, int height) throws Exception {
@@ -80,7 +80,7 @@ public class Person {
         return bodyParts;
     }
 
-    public String emotionAnalyze(List<Emotion> emotions){
+    public String emotionAnalyze(){
         int count = 0;
         for (Emotion emotion: emotions){
             if (emotion.getExpression().equals("ПОТРЯСЕНИЕ")||emotion.getExpression().equals("УДИВЛЕНИЕ")){
