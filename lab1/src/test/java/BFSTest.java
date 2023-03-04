@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import test.company.lab1.util.BreadCrumbs;
 import test.company.lab1.util.BreadthFirstSearch;
 
 import java.util.Arrays;
@@ -19,7 +20,7 @@ public class BFSTest {
         @BeforeEach
         @DisplayName("Первый граф. Малый несвязный")
         public void init() {
-            g = new BreadthFirstSearch(8);
+            g = new BreadthFirstSearch(8,new BreadCrumbs());
             g.addEdge(0, 1);
             g.addEdge(1, 0);
             g.addEdge(0, 2);
@@ -61,6 +62,8 @@ public class BFSTest {
             g.BFS(startVertex);
             Assertions.assertArrayEquals(g.getParent(), new int[]{-1, 0, 0, -1, -1, -1, -1, -1}, "parents don't match with correct parents");
             Assertions.assertArrayEquals(g.getVisited(), new boolean[]{true, true, true, false, false, false, false, false}, "visited don't match with correct visited");
+            Assertions.assertEquals(g.getBreadCrumbs().getTrace(),"add0poll0add1add2poll1poll2","Incorrect queue working process");
+
 
         }
 
@@ -73,6 +76,9 @@ public class BFSTest {
             g.BFS(startVertex);
             Assertions.assertArrayEquals(g.getParent(), new int[]{-1, -1, -1, -1, -1, -1, -1, -1}, "parents don't match with correct parents");
             Assertions.assertArrayEquals(g.getVisited(), new boolean[]{false, false, false, true, false, false, false, false}, "visited don't match with correct visited");
+            Assertions.assertEquals(g.getBreadCrumbs().getTrace(),"add3poll3","Incorrect queue working process");
+
+
 
         }
 
@@ -85,6 +91,8 @@ public class BFSTest {
             g.BFS(startVertex);
             Assertions.assertArrayEquals(g.getParent(), new int[]{-1, -1, -1, -1, 7, -1, -1, 5}, "parents don't match with correct parents");
             Assertions.assertArrayEquals(g.getVisited(), new boolean[]{false, false, false, false, true, true, false, true}, "visited don't match with correct visited");
+            Assertions.assertEquals(g.getBreadCrumbs().getTrace(),"add5poll5add7poll7add4poll4","Incorrect queue working process");
+
 
         }
 
@@ -95,7 +103,7 @@ public class BFSTest {
         @BeforeEach
         @DisplayName("Второй граф. Большой связный")
         public void init() {
-            g = new BreadthFirstSearch(18);
+            g = new BreadthFirstSearch(18,new BreadCrumbs());
             g.addEdge(0, 1);
             g.addEdge(1, 0);
             g.addEdge(0, 7);
@@ -192,6 +200,8 @@ public class BFSTest {
 
             Assertions.assertArrayEquals(g.getParent(), parentInitial, "parents initial state is incorrect");
             Assertions.assertArrayEquals(g.getVisited(), new boolean[18], "visited initial state is incorrect");
+
+
         }
 
         @ParameterizedTest
@@ -202,6 +212,8 @@ public class BFSTest {
             g.BFS(startVertex);
             Assertions.assertArrayEquals(g.getParent(), new int[]{2, 0, -1, 2, 1, 2, 5, 0, 5, 5, 3, 8, 8, 9, 0, 14, 15, 15}, "parents don't match with correct parents");
             Assertions.assertArrayEquals(g.getVisited(), new boolean[]{true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, "visited don't match with correct visited");
+            Assertions.assertEquals(g.getBreadCrumbs().getTrace(),"add2poll2add0add5add3poll0add1add7add14poll5add6add8add9poll3add10poll1add4poll7poll14add15poll6poll8add11add12poll9add13poll10poll4poll15add16add17poll11poll12poll13poll16poll17","Incorrect queue working process");
+
 
         }
 
@@ -214,6 +226,9 @@ public class BFSTest {
             g.BFS(startVertex);
             Assertions.assertArrayEquals(g.getParent(), new int[]{7, 0, 0, 2, 7, 8, 5, -1, 7, 8, 3, 8, 8, 9, 0, 14, 15, 15}, "parents don't match with correct parents");
             Assertions.assertArrayEquals(g.getVisited(), new boolean[]{true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, "visited don't match with correct visited");
+            Assertions.assertEquals(g.getBreadCrumbs().getTrace(),"add7poll7add0add4add8poll0add1add14add2poll4poll8add5add9add11add12poll1poll14add15poll2add3poll5add6poll9add13poll11poll12poll15add16add17poll3add10poll6poll13poll16poll17poll10","Incorrect queue working process");
+
+
         }
 
 
@@ -225,6 +240,8 @@ public class BFSTest {
             g.BFS(startVertex);
             Assertions.assertArrayEquals(g.getParent(), new int[]{14, 5, 5, 10, 8, 9, 9, 8, 9, 13, 13, 15, 13, 17, 15, 17, 17, -1}, "parents don't match with correct parents");
             Assertions.assertArrayEquals(g.getVisited(), new boolean[]{true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, "visited don't match with correct visited");
+            Assertions.assertEquals(g.getBreadCrumbs().getTrace(),"add17poll17add13add15add16poll13add9add10add12poll15add11add14poll16poll9add5add6add8poll10add3poll12poll11poll14add0poll5add1add2poll6poll8add4add7poll3poll0poll1poll2poll4poll7","Incorrect queue working process");
+
         }
     }
 
@@ -234,7 +251,7 @@ public class BFSTest {
         @BeforeEach
         @DisplayName("Второй граф. Малый связный")
         public void init() {
-            g = new BreadthFirstSearch(8);
+            g = new BreadthFirstSearch(8,new BreadCrumbs());
             g.addEdge(0, 1);
             g.addEdge(1, 0);
             g.addEdge(0, 3);
@@ -286,6 +303,7 @@ public class BFSTest {
             g.BFS(startVertex);
             Assertions.assertArrayEquals(g.getParent(), new int[]{1, -1, 5, 0, 0, 1, 4, 3}, "parents don't match with correct parents");
             Assertions.assertArrayEquals(g.getVisited(), new boolean[]{true, true, true, true, true, true, true, true}, "visited don't match with correct visited");
+            Assertions.assertEquals(g.getBreadCrumbs().getTrace(),"add1poll1add0add5poll0add3add4poll5add2poll3add7poll4add6poll2poll7poll6","Incorrect queue working process");
 
         }
 
@@ -298,6 +316,7 @@ public class BFSTest {
             g.BFS(startVertex);
             Assertions.assertArrayEquals(g.getParent(), new int[]{4, 0, 4, 0, -1, 2, 4, 3}, "parents don't match with correct parents");
             Assertions.assertArrayEquals(g.getVisited(), new boolean[]{true, true, true, true, true, true, true, true}, "visited don't match with correct visited");
+            Assertions.assertEquals(g.getBreadCrumbs().getTrace(),"add4poll4add0add2add6poll0add1add3poll2add5poll6poll1poll3add7poll5poll7","Incorrect queue working process");
 
         }
 
@@ -310,6 +329,7 @@ public class BFSTest {
             g.BFS(startVertex);
             Assertions.assertArrayEquals(g.getParent(), new int[]{3, 0, 5, 7, 0, 3, 4, -1}, "parents don't match with correct parents");
             Assertions.assertArrayEquals(g.getVisited(), new boolean[]{true, true, true, true, true, true, true, true}, "visited don't match with correct visited");
+            Assertions.assertEquals(g.getBreadCrumbs().getTrace(),"add7poll7add3poll3add0add5poll0add1add4poll5add2poll1poll4add6poll2poll6","Incorrect queue working process");
 
         }
 

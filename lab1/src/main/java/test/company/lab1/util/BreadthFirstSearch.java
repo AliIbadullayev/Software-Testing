@@ -12,9 +12,14 @@ public class BreadthFirstSearch {
 
     private boolean[] visited;
 
+    private BreadCrumbs breadCrumbs;
 
-    public BreadthFirstSearch(int v) {
+
+
+
+    public BreadthFirstSearch(int v, BreadCrumbs breadCrumbs) {
         V = v;
+        this.breadCrumbs = breadCrumbs;
         adj = new LinkedList[v];
         for (int i = 0; i < v; ++i)
             adj[i] = new LinkedList();
@@ -40,9 +45,12 @@ public class BreadthFirstSearch {
 
         visited[s] = true;
         queue.add(s);
+        breadCrumbs.addQueueCrumb(s);
 
         while (queue.size() != 0) {
             s = queue.poll();
+            breadCrumbs.pollQueueCrumb(s);
+
 
 
             for (int n : adj[s]) {
@@ -50,6 +58,8 @@ public class BreadthFirstSearch {
                     visited[n] = true;
                     parent[n] = s;
                     queue.add(n);
+                    breadCrumbs.addQueueCrumb(n);
+
                 }
             }
         }
@@ -65,5 +75,9 @@ public class BreadthFirstSearch {
 
     public boolean[] getVisited() {
         return visited;
+    }
+
+    public BreadCrumbs getBreadCrumbs() {
+        return breadCrumbs;
     }
 }
