@@ -42,10 +42,13 @@ public class BreadthFirstSearch {
         LinkedList<Integer> queue
                 = new LinkedList<Integer>();
 
+        breadCrumbs.emptyQueueCrumb();
+
 
         visited[s] = true;
         queue.add(s);
         breadCrumbs.addQueueCrumb(s);
+
 
         while (queue.size() != 0) {
             s = queue.poll();
@@ -63,6 +66,8 @@ public class BreadthFirstSearch {
                 }
             }
         }
+
+        breadCrumbs.emptyQueueCrumb();
     }
 
     public LinkedList<Integer>[] getAdj() {

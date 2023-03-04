@@ -16,6 +16,10 @@ public class BreadCrumbs {
         trace += "add" + crumb.toString();
     }
 
+    public void emptyQueueCrumb(){
+        trace += "empty";
+    }
+
     public void clearTrace(){
         trace = "";
     }
