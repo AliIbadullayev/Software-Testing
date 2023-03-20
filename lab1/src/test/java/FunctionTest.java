@@ -5,15 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import test.company.lab1.util.Functions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FunctionTest {
-
-    @BeforeAll
-    static void start(){
-        System.out.println("Test's started!");
-    }
 
     /*
     * 1) Значения, при которых функция sec(x) имеет разрыв или не определена (например, x=0, x=π/2, x=-π/2 и т.д.).
@@ -22,13 +14,12 @@ public class FunctionTest {
       * Эти значения могут помочь обнаружить ошибки в вычислениях из-за потери точности при работе с большими или маленькими числами.
       3) Значения, при которых функция sec(x) принимает нормальные значения (например, x=π/6, x=π/3, x=π/4 и т.д.).
       * Эти значения могут быть важными для проверки соответствия реализации функции ее математическому определению и обнаружения ошибок в округлении или обработке аргументов функции.
-
     * */
 
 
     @ParameterizedTest
-    @ValueSource(doubles = {Math.PI/2, -Math.PI/2,  Math.PI, -Math.PI})
-    @DisplayName("Тест для проверки равности результата sec(x) и степенного ряда  в точках разрыва и в координатах пересекающих ось X!")
+    @ValueSource(doubles = {Math.PI/2, -Math.PI/2,  Math.PI, -Math.PI, 0})
+    @DisplayName("Тест для проверки равности результата sec(x) и степенного ряда в точках разрыва и в координатах пересекающих ось X!")
     void checkSecFunc1(double x){
         System.out.println("х = " + x);
         System.out.print("sec(x) = " + Functions.funSec(x)+"; " + "степенной ряд = "+Functions.funSecInPowerSeries(x)+"\n\n");
