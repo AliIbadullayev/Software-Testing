@@ -1,15 +1,17 @@
+package unit;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import test.company.lab2.*;
 
 public class SecTest {
     @ParameterizedTest
     @ValueSource(doubles = {Math.PI/2, -Math.PI/2,  Math.PI, -Math.PI, 0})
     @DisplayName("Тест для проверки равности результата sec(x) и степенного ряда в точках разрыва и в координатах пересекающих ось X!")
     void checkSecFunc1(double x){
-        Sec sec = new Sec (new Cos(new Sin()));
+        Sec sec = new Sec(new Cos(new Sin()));
         System.out.println("х = " + x);
         System.out.print("sec(x) = " + sec.calculate(x) +"; " + "степенной ряд = "+sec.calculateExpected(x)+"\n\n");
         Assertions.assertEquals(sec.calculate(x) , sec.calculateExpected(x), "test not passed!");
