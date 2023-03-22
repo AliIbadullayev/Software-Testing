@@ -1,28 +1,28 @@
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.MathContext;
-
-public class Cos {
+public class Csc {
     Sin sin;
 
-    public Cos() {
+    public Csc() {
         this.sin = new Sin();
     }
 
-    public Cos(Sin sin) {
+    public Csc(Sin sin) {
         this.sin = sin;
     }
 
     private static final int DIGITS_AFTER_COMMA = 8;
 
     public double calculate(double x){
-        double result = Math.abs(x) >= Math.PI/2? -1 * Math.sqrt(1- Math.pow(sin.calculate(x), 2)) : Math.sqrt(1- Math.pow(sin.calculate(x), 2));
+        if (x == 0 || x%Math.PI == 0)
+            return Double.NaN;
+        double result =  1/sin.calculate(x);
         return formatOutput(result);
 //        return result;
     }
 
     public double calculateExpected(double x){
-        return formatOutput(Math.cos(x));
+        if (x == 0 || x%Math.PI == 0)
+            return Double.NaN;
+        return formatOutput(1/Math.sin(x));
 //        return Math.cos(x);
     }
 
