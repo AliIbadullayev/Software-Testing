@@ -33,14 +33,18 @@ public class IntTest {
 
     @BeforeAll
     static void init() {
+        sinMock = Mockito.mock(Sin.class);
+        cosMock = Mockito.mock(Cos.class);
+        secMock = Mockito.mock(Sec.class);
+        cscMock = Mockito.mock(Csc.class);
         lnMock = Mockito.mock(Ln.class);
         logMock = Mockito.mock(Log.class);
 
         try {
-            secIn = new FileReader("src/main/resources/csv/Inputs/SecIn.csv");
-            cscIn = new FileReader("src/main/resources/csv/Inputs/CscIn.csv");
-            cosIn = new FileReader("src/main/resources/csv/Inputs/CosIn.csv");
-            sinIn = new FileReader("src/main/resources/csv/Inputs/SinIn.csv");
+            secIn = new FileReader("src/main/resources/csv/input/Sec.csv");
+            cscIn = new FileReader("src/main/resources/csv/input/Csc.csv");
+            cosIn = new FileReader("src/main/resources/csv/input/Cos.csv");
+            sinIn = new FileReader("src/main/resources/csv/input/Sin.csv");
             lnIn = new FileReader("src/main/resources/csv/input/Ln.csv");
             log2In = new FileReader("src/main/resources/csv/input/Log2.csv");
             log3In = new FileReader("src/main/resources/csv/input/Log3.csv");

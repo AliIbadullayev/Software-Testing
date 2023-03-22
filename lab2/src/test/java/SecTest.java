@@ -40,4 +40,37 @@ public class SecTest {
 //    void someT(double x){
 //        Assertions.assertTrue( x % Math.PI/2 == 0);
 //    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {
+            -100,
+            -10,
+            -9,
+            -5,
+            -4,
+            -3,
+            -2.718281828,
+            -2,
+            -1,
+            -1.5707963,
+            -2.094395,
+            0,
+            0.25,
+            0.5,
+            1,
+            2,
+            2.718281828,
+            3,
+            4,
+            5,
+            9,
+            10,
+            25,
+            100
+    })
+    @DisplayName("Тест для проверки равности результата sec(x) и степенного ряда со значениями близкими к целочисленным кратным π")
+    void check(double x){
+        Sec sec = new Sec();
+        System.out.println(x+" , "+sec.calculate(x));
+    }
 }

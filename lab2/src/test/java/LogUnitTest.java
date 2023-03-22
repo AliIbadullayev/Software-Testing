@@ -7,15 +7,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 public class LogUnitTest {
 
-    Log log;
-    Ln ln;
+    Log log = new Log();
+    Ln ln =  new Ln();
 
-    @BeforeAll
-    public void init(){
-
-        this.log = new Log();
-        this.ln = new Ln();
-    }
 
     /*
      * Анализ эквивалентности:
