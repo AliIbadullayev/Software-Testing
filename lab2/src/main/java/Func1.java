@@ -6,6 +6,13 @@ public class Func1 {
 
     private static final int DIGITS_AFTER_COMMA = 8;
 
+    public Func1() {
+        this.sin = new Sin();
+        this.cos = new Cos();
+        this.csc = new Csc();
+        this.sec = new Sec();
+    }
+
     public Func1(Sin sin, Cos cos, Csc csc, Sec sec) {
         this.sin = sin;
         this.cos = cos;

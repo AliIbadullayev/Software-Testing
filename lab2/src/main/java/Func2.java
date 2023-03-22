@@ -9,6 +9,11 @@ public class Func2 {
     Log log;
     Ln ln;
 
+    public Func2() {
+        this.log = new Log();
+        this.ln = new Ln();
+    }
+
     public Func2(Log log, Ln ln) {
         this.log = log;
         this.ln = ln;
