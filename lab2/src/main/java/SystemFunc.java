@@ -42,6 +42,15 @@ public class SystemFunc {
         Sec sec = new Sec(cos);
         Csc csc = new Csc(sin);
         SystemFunc systemFunc = new SystemFunc(sec, cos, sin, csc, new Log(ln), ln);
+        System.out.println(systemFunc.calculate(-100, 0.00000001));
+        System.out.println(systemFunc.calculate(-10, 0.00000001));
+        System.out.println(systemFunc.calculate(-9, 0.00000001));
+        System.out.println(systemFunc.calculate(-5, 0.00000001));
+        System.out.println(systemFunc.calculate(-4, 0.00000001));
+        System.out.println(systemFunc.calculate(-3, 0.00000001));
+        System.out.println(systemFunc.calculate(-2.718281828, 0.00000001));
+        System.out.println(systemFunc.calculate(-2, 0.00000001));
+        System.out.println(systemFunc.calculate(-1, 0.00000001));
         System.out.println(systemFunc.calculate(-1.5707963,0.00000001));
         System.out.println(systemFunc.calculate(-2.094395,0.00000001));
         System.out.println(systemFunc.calculate(0,0.00000001));
