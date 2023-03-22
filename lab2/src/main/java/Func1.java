@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-
 public class Func1 {
     Sin sin;
     Cos cos;

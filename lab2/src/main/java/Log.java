@@ -1,5 +1,3 @@
-package test.company.lab2;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 

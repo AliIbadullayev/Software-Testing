@@ -1,30 +1,28 @@
-package test.company.lab2;
+public class Sec {
+    Cos cos;
 
-public class Csc {
-    Sin sin;
-
-    public Csc() {
-        this.sin = new Sin();
+    public Sec() {
+        this.cos = new Cos(new Sin());
     }
 
-    public Csc(Sin sin) {
-        this.sin = sin;
+    public Sec(Cos cos) {
+        this.cos = cos;
     }
 
     private static final int DIGITS_AFTER_COMMA = 3;
 
     public double calculate(double x){
-        if (x == 0 || x%Math.PI == 0)
+        if (x % (Math.PI/2) == 0 && x % Math.PI != 0)
             return Double.NaN;
-        double result =  1/sin.calculate(x);
+        double result = 1/cos.calculate(x);
         return formatOutput(result);
 //        return result;
     }
 
     public double calculateExpected(double x){
-        if (x == 0 || x%Math.PI == 0)
+        if (x % (Math.PI/2) == 0 && x % Math.PI != 0)
             return Double.NaN;
-        return formatOutput(1/Math.sin(x));
+        return formatOutput(1/Math.cos(x));
 //        return Math.cos(x);
     }
 
