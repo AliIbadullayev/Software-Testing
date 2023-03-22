@@ -22,6 +22,9 @@ public class IntTest {
     static Csc cscMock;
     static Log logMock;
 
+    static Func1 firstFuncMock;
+    static Func2 secondFuncMock;
+
     static Reader secIn;
     static Reader cosIn;
     static Reader sinIn;
@@ -31,6 +34,8 @@ public class IntTest {
     static Reader log3In;
     static Reader log5In;
     static Reader log10In;
+    static Reader firstFuncIn;
+    static Reader secondFuncIn;
 
     @BeforeAll
     static void init() {
@@ -40,6 +45,8 @@ public class IntTest {
         cscMock = Mockito.mock(Csc.class);
         lnMock = Mockito.mock(Ln.class);
         logMock = Mockito.mock(Log.class);
+        firstFuncMock = Mockito.mock(Func1.class);
+        secondFuncMock = Mockito.mock(Func2.class);
 
         try {
             secIn = new FileReader("src/main/resources/csv/input/Sec.csv");
@@ -51,7 +58,8 @@ public class IntTest {
             log3In = new FileReader("src/main/resources/csv/input/Log3.csv");
             log5In = new FileReader("src/main/resources/csv/input/Log5.csv");
             log10In = new FileReader("src/main/resources/csv/input/Log10.csv");
-
+            firstFuncIn = new FileReader("src/main/resources/csv/input/SecondFunc.csv");
+            secondFuncIn = new FileReader("src/main/resources/csv/input/FirstFunc.csv");
 
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(lnIn);
             for (CSVRecord record : records) {
@@ -74,7 +82,7 @@ public class IntTest {
 
             records = CSVFormat.DEFAULT.parse(log10In);
             for (CSVRecord record : records) {
-                Mockito.when(logMock.log(Double.parseDouble(record.get(0)),10 , EPSILON)).thenReturn(Double.valueOf(record.get(1)));
+                Mockito.when(logMock.log(Double.parseDouble(record.get(0)), 10, EPSILON)).thenReturn(Double.valueOf(record.get(1)));
             }
 
             records = CSVFormat.DEFAULT.parse(sinIn);
@@ -97,6 +105,15 @@ public class IntTest {
                 Mockito.when(cscMock.calculate(Double.parseDouble(record.get(0)))).thenReturn(Double.valueOf(record.get(1)));
             }
 
+            records = CSVFormat.DEFAULT.parse(firstFuncIn);
+            for (CSVRecord record : records) {
+                Mockito.when(firstFuncMock.calculate(Double.parseDouble(record.get(0)))).thenReturn(Double.valueOf(record.get(1)));
+            }
+
+            records = CSVFormat.DEFAULT.parse(secondFuncIn);
+            for (CSVRecord record : records) {
+                Mockito.when(secondFuncMock.secondExpressionCalc(Double.parseDouble(record.get(0)), EPSILON)).thenReturn(Double.valueOf(record.get(1)));
+            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -105,61 +122,77 @@ public class IntTest {
     }
 
 
-        @ParameterizedTest
-        @CsvFileSource(resources = "/csv/input/System.csv")
-        void testSystemWithAllMocks ( double value, double expected){
-            SystemFunc systemFunc = new SystemFunc(secMock, cosMock, sinMock, cscMock, logMock, lnMock);
-            Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
-        }
-
-        @ParameterizedTest
-        @CsvFileSource(resources = "/csv/input/System.csv")
-        void testWithSecCsc (double value, double expected){
-            SystemFunc systemFunc = new SystemFunc(new Sec(cosMock), cosMock, sinMock, new Csc(sinMock), logMock, lnMock);
-            Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
-
-        }
-
-        @ParameterizedTest
-        @CsvFileSource(resources = "/csv/input/System.csv")
-        void testWithCos ( double value, double expected){
-            SystemFunc systemFunc = new SystemFunc(new Sec(new Cos(sinMock)), new Cos(sinMock), sinMock, new Csc(sinMock), logMock, lnMock);
-            Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
-
-        }
-
-        @ParameterizedTest
-        @CsvFileSource(resources = "/csv/input/System.csv")
-        void testWithSin ( double value, double expected){
-            SystemFunc systemFunc = new SystemFunc(new Sec(new Cos(new Sin())), new Cos(new Sin()), new Sin(), new Csc(new Sin()), logMock, lnMock);
-            Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
-
-        }
-
-        @ParameterizedTest
-        @CsvFileSource(resources = "/csv/input/System.csv")
-        void testWithLog ( double value, double expected){
-            SystemFunc systemFunc = new SystemFunc(secMock, cosMock, sinMock, cscMock, new Log(lnMock), lnMock);
-            Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
-
-        }
-
-        @ParameterizedTest
-        @CsvFileSource(resources = "/csv/input/System.csv")
-        void testWithLn ( double value, double expected){
-            SystemFunc systemFunc = new SystemFunc(secMock, cosMock, sinMock, cscMock, new Log(new Ln()), new Ln());
-            Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
-
-        }
-
-        @ParameterizedTest
-        @CsvFileSource(resources = "/csv/input/System.csv")
-        void testWithAll ( double value, double expected){
-            SystemFunc systemFunc = new SystemFunc();
-            Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
-
-        }
+    @ParameterizedTest
+    @CsvFileSource(resources = "/csv/input/System.csv")
+    void testSystemWithAllMocks(double value, double expected) {
+        SystemFunc systemFunc = new SystemFunc(new Func1(sinMock, cosMock, cscMock, secMock), new Func2(logMock, lnMock));
+        Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
     }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/csv/input/System.csv")
+    void testWithSecCsc(double value, double expected) {
+        SystemFunc systemFunc = new SystemFunc(new Func1(sinMock, cosMock, new Csc(sinMock), new Sec(cosMock)), new Func2(logMock, lnMock));
+        Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
+
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/csv/input/System.csv")
+    void testWithCos(double value, double expected) {
+        SystemFunc systemFunc = new SystemFunc(new Func1(sinMock, new Cos(sinMock), new Csc(sinMock), new Sec(new Cos(sinMock))), new Func2(logMock, lnMock));
+        Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
+
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/csv/input/System.csv")
+    void testWithSin(double value, double expected) {
+        SystemFunc systemFunc = new SystemFunc(new Func1(new Sin(), new Cos(new Sin()), new Csc(new Sin()), new Sec(new Cos(new Sin()))), new Func2(logMock, lnMock));
+        Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
+
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/csv/input/System.csv")
+    void testWithLog(double value, double expected) {
+        SystemFunc systemFunc = new SystemFunc(new Func1(sinMock, cosMock, cscMock, secMock), new Func2(new Log(lnMock), lnMock));
+        Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
+
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/csv/input/System.csv")
+    void testWithLn(double value, double expected) {
+        SystemFunc systemFunc = new SystemFunc(new Func1(sinMock, cosMock, cscMock, secMock), new Func2(new Log(new Ln()), new Ln()));
+        Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
+
+    }
+
+//    @ParameterizedTest
+//    @CsvFileSource(resources = "/csv/input/System.csv")
+//    void testWithFunc1(double value, double expected) {
+//        SystemFunc systemFunc = new SystemFunc(new Func1(sinMock, new Cos(sinMock), new Csc(sinMock), new Sec(new Cos(sinMock))), new Func2(logMock, lnMock));
+//        Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
+//
+//    }
+//
+//    @ParameterizedTest
+//    @CsvFileSource(resources = "/csv/input/System.csv")
+//    void testWithFunc2(double value, double expected) {
+//        SystemFunc systemFunc = new SystemFunc(firstFuncMock, new Func2());
+//        Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
+//
+//    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/csv/input/System.csv")
+    void testWithAll(double value, double expected) {
+        SystemFunc systemFunc = new SystemFunc();
+        Assertions.assertEquals(expected, systemFunc.calculate(value, EPSILON), FUNC_EPS);
+
+    }
+}
 
 
 
