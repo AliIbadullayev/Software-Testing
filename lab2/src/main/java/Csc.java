@@ -9,7 +9,7 @@ public class Csc {
         this.sin = sin;
     }
 
-    private static final int DIGITS_AFTER_COMMA = 8;
+    private static final int DIGITS_AFTER_COMMA = 3;
 
     public double calculate(double x){
         if (x == 0 || x%Math.PI == 0)

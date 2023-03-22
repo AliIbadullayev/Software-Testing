@@ -3,7 +3,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 
 public class Sin {
-    private static final int DIGITS_AFTER_COMMA = 8;
+    private static final int DIGITS_AFTER_COMMA = 11;
 
     public double calculate(double x){
         BigDecimal res = BigDecimal.ZERO;
